@@ -1,10 +1,12 @@
 import random
 import os
+import json
 import discord
 from discord.ext import commands
 
 Pan = commands.Bot(command_prefix='*')
 mood = '~'
+game = "with Yagita"
 
 @Pan.event
 async def on_ready():
@@ -72,9 +74,9 @@ async def handbook(ctx):
     ]
     await ctx.send(f'{random.choice(resps)} ')
 
-@Pan.command(aliases=['halp'])
+@Pan.command(name='help')
 async def _help(ctx):
-    await ctx.send("`My prefix is *` \n```css\nI will greet newcomers! As part of our family!\nAnd say goodbyes to the ones leaving ;-;\n```My commands for now are:```Say (message) , ping , 8ball (question) , handbook```\n`I don't know much yet, but @KillerAmd#3312 taught me few tricks for now! :D`")
+    await ctx.send("`My prefix is *` \n```css\n(unavailable)I will greet newcomers! As part of our family!\nAnd say goodbyes to the ones leaving ;-;\n```My commands for now are:```Say (message) , ping , 8ball (question) , handbook```\n`I don't know much yet, but @KillerAmd#3312 taught me few tricks for now! :D`")
 
 @Pan.command()
 async def mode(ctx, value):
