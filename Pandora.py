@@ -6,8 +6,6 @@ from discord.ext import commands
 
 Pan = commands.Bot(command_prefix='*')
 mood = '~'
-game = "with Yagita"
-await Pan.change_presence(status=discord.status.idle, activity=game)
 
 @Pan.event
 async def on_ready():
