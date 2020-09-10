@@ -10,7 +10,7 @@ mood = '~'
 @Pan.event
 async def on_ready():
     print("Pandora is on!")
-    await Pan.change_presence(game=discord.Game(name="with Yagita"))
+    await Pan.change_presence(activity=discord.Game(name="with Yagita"))
     
 @Pan.event
 async def on_member_join(member):
