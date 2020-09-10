@@ -10,16 +10,16 @@ mood = '~'
 @Pan.event
 async def on_ready():
     print("Pandora is on!")
-#    await ctx.channel.send("Back~!")
+    
 @Pan.event
 async def on_member_join(member):
     print(f'{member} has joined my family!~ :PDRpan_yay1:')
-#    await ctx.send(f"{member} has joined my family!~ :PDRpan_yay1:")
+#    await member.channel.send(f"{member} has joined my family!~ :PDRpan_yay1:")
 
 @Pan.event
 async def on_member_remove(member):
     print(f'{member} has left the family... :PDRpan_no1:')
-#    await ctx.send(f"{member} has left the family... :PDRpan_no1:")
+#    await member.channel.send(f"{member} has left the family... :PDRpan_no1:")
 
 #@Pan.event
 #async def on_message(msg):
@@ -73,7 +73,7 @@ async def handbook(ctx):
     ]
     await ctx.send(f'{random.choice(resps)} ')
 
-@Pan.command(name='help')
+@Pan.command(name='halp')
 async def _help(ctx):
     await ctx.send("`My prefix is *` \n```css\n(unavailable)I will greet newcomers! As part of our family!\nAnd say goodbyes to the ones leaving ;-;\n```My commands for now are:```Say (message) , ping , 8ball (question) , handbook```\n`I don't know much yet, but @KillerAmd#3312 taught me few tricks for now! :D`")
 
