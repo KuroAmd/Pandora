@@ -1,4 +1,5 @@
 import discord
+import os
 
 class mybot(discord.Client):
     async def on_ready(self):
@@ -16,4 +17,4 @@ class mybot(discord.Client):
 
 
 client = mybot()
-client.run(Disc_Token)
+client.run(os.environ[Disc_Token])
