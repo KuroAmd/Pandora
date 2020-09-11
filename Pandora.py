@@ -1,11 +1,13 @@
 import random
 import os
-#import json
+import json
 import discord
 from discord.ext import commands
-
-Pan = commands.Bot(command_prefix='*')
+p='*'
+Pan = commands.Bot(command_prefix=p)
 mood = '~'
+
+#os.chdir('KuroAmd/')
 
 @Pan.event
 async def on_ready():
@@ -22,13 +24,43 @@ async def on_member_remove(member):
     print(f'{member} has left the family... :PDRpan_no1:')
 #    await member.channel.send(f"{member} has left the family... :PDRpan_no1:")
 
-#@Pan.event
-#async def on_message(msg):
-#    if msg.content.startswith('Hi' or 'Hello' or 'Hey'):
-#        await msg.channel.send("Hey there!{0} :wave:".format(mood))
-#    if msg.content.startswith('Bye' or 'bye'):
-#        await msg.channel.send("Take care!{0}".format(mood))
-#   await bot.process_commands(msg)
+
+@Pan.event
+async def on_message(message):
+    if message.author==client.user:
+        return
+
+    with open('data.json','r') as f:
+        users = json.load(f)
+
+    await update_data(users, message.author)
+    await add_exp(users, message.author,5)
+    await lvl_up(users, message.author, message.channel)
+
+    with open('data.json','w') as f:
+        json.dump(users,f)
+
+    await Pan.process_commands(message)
+
+async def update_data(users, user):
+    if not str(user.id) in users:
+        users[str(user.id)]={}
+        users[str(user.id)]['experience']=0
+        users[str(user.id)]['level']=1
+        users[str(user.id)]['wallet']=1000
+
+async def add_exp(users,user,exp):
+    users[str(user.id)]['experience'] += exp
+    users[str(user.id)]['wallet'] += (exp*5)
+
+async def lvl_up(users, user, channel):
+    experience = users[str(user.id)]['experience']
+    lvl_start = users[str(user.id)]['level']
+    lvl_end = int(experience ** (1/4))
+
+    if lvl_start < lvl_end:
+        await channel.send_message(f"Congratulation! {user.mention}, You've leveled up to {lvl_end}!")
+        users[str(user.id)]['level']= lvl_end
 
 @Pan.command(aliases=['say', 'Say'],description="I'll say what you say!")
 async def _Say(ctx, *, msg):
