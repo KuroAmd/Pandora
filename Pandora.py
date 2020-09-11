@@ -28,21 +28,22 @@ async def on_member_remove(member):
 #        await msg.channel.send("Hey there!{0} :wave:".format(mood))
 #    if msg.content.startswith('Bye' or 'bye'):
 #        await msg.channel.send("Take care!{0}".format(mood))
+#   await bot.process_commands(msg)
 
-@Pan.command(aliases=['say', 'Say'])
+@Pan.command(name=['say', 'Say'],description="I'll say what you say!")
 async def _Say(ctx, *, msg):
     await ctx.send(f'{msg}{mood}')
 
-@Pan.command()
+@Pan.command(description='Latency')
 async def ping(ctx):
     await ctx.send(f'Pong!{mood} {round(Pan.latency * 1000)}ms')
 
-@Pan.command()
+@Pan.command(description='I will choose for you between two things')
 async def choose(ctx, c1, c2):
     choices =[c1, c2]
     await ctx.send(f'{c1}? or {c2}? Hmm?~\n\n{random.choice(choices)} of course!{mood}')
 
-@Pan.command(aliases=['8ball'])
+@Pan.command(aliases=['8ball'],description='Ask me any question!')
 async def _8ball(ctx, *, question):
     responses = ['Yes!',
     'No!',
@@ -57,7 +58,7 @@ async def _8ball(ctx, *, question):
     'Without a doubt!']
     await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}{mood}')
 
-@Pan.command()
+@Pan.command(hidden=True)
 async def shred(ctx, amt=3):
     await ctx.channel.purge(limit=amt)
     await ctx.send(f'{amt} messages were shredded.{mood}')
@@ -66,7 +67,7 @@ async def shred(ctx, amt=3):
 async def Prune_guide(ctx):
     await ctx.send("To make me prune/purge(delete number of messages)\nUse *shred (amount)\n`if the amount of messages isn't determined, I will delete 3!`")
 
-@Pan.command()
+@Pan.command(description='About Law of Creation characters')
 async def handbook(ctx):
     resps = ["**June:**\n > In the final battle, the Souring Devil faction set out to capture Pandora Z in her awakened form. In order to overcome the ultimate weapon, June surrendered control to Bloody Mary, a witch with a lust for chaos and destruction. Just as with me(Pandora) losing her personality in Omega form, June's persona is lost to madness. Now she is the Blood Witch."
 
@@ -74,7 +75,7 @@ async def handbook(ctx):
     ]
     await ctx.send(f'{random.choice(resps)} ')
 
-@Pan.command(name='halp')
+@Pan.command(name='halp',description='Let me explain what I can do')
 async def _help(ctx):
     await ctx.send("`My prefix is *` \n```css\n(unavailable)I will greet newcomers! As part of our family!\nAnd say goodbyes to the ones leaving ;-;\n```My commands for now are:```Say (message) , ping , 8ball (question) , handbook```\n`I don't know much yet, but @KillerAmd#3312 taught me few tricks for now! :D`")
 
@@ -87,9 +88,10 @@ async def mode(ctx, value):
         mood = " nya~"
     await ctx.send("My mood changed!{0}".format(mood))
 
-@Pan.command()
+@Pan.command(hidden=True)
 async def shutdown(ctx):
-    await ctx.send(f"Bye bye{mood}")
-    await Pan.logout()
+    if author.id == 444806806682730496:
+        await ctx.send(f"Bye bye{mood}")
+        await Pan.logout()
 
 Pan.run(os.environ['Disc_Token'])
