@@ -17,4 +17,4 @@ class mybot(discord.Client):
 
 
 client = mybot()
-client.run(os.environ[Disc_Token])
+client.run(os.environ['Disc_Token'])
