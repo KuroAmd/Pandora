@@ -30,7 +30,7 @@ async def on_member_remove(member):
 #        await msg.channel.send("Take care!{0}".format(mood))
 #   await bot.process_commands(msg)
 
-@Pan.command(name=['say', 'Say'],description="I'll say what you say!")
+@Pan.command(aliases=['say', 'Say'],description="I'll say what you say!")
 async def _Say(ctx, *, msg):
     await ctx.send(f'{msg}{mood}')
 
@@ -43,7 +43,7 @@ async def choose(ctx, c1, c2):
     choices =[c1, c2]
     await ctx.send(f'{c1}? or {c2}? Hmm?~\n\n{random.choice(choices)} of course!{mood}')
 
-@Pan.command(aliases=['8ball'],description='Ask me any question!')
+@Pan.command(name='8ball',description='Ask me any question!')
 async def _8ball(ctx, *, question):
     responses = ['Yes!',
     'No!',
