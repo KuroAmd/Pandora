@@ -7,7 +7,6 @@ p='*'
 Pan = commands.Bot(command_prefix=p)
 mood = '~'
 #os.chdir('KuroAmd/')
-
 @Pan.event
 async def on_ready():
     print("Pandora is on!")
@@ -15,39 +14,11 @@ async def on_ready():
 @Pan.event
 async def on_member_join(member):
     print(f'{member} has joined my family!~ :PDRpan_yay1:')
-#    await member.channel.send(f"{member} has joined my family!~ :PDRpan_yay1:")
+    await member.channel.send(f"{member} has joined my family!~ :PDRpan_yay1:")
 @Pan.event
 async def on_member_remove(member):
     print(f'{member} has left the family... :PDRpan_no1:')
-#    await member.channel.send(f"{member} has left the family... :PDRpan_no1:")
-@Pan.event
-async def on_message(message):
-    if message.author==Pan.user:
-        return
-    with open('usersdata.json','r') as f:
-        users = json.load(f)
-    await update_data(users, message.author)
-    await add_exp(users, message.author,5)
-    await lvl_up(users, message.author, message.channel)
-    with open('usersdata.json','w') as f:
-        json.dump(users,f)
-    await Pan.process_commands(message)
-async def update_data(users, user):
-    if not str(user.id) in users:
-        users[str(user.id)]={}
-        users[str(user.id)]['experience']=0
-        users[str(user.id)]['level']=1
-        users[str(user.id)]['wallet']=1000
-async def add_exp(users,user,exp):
-    users[str(user.id)]['experience'] += exp
-    users[str(user.id)]['wallet'] += (exp*5)
-async def lvl_up(users, user, channel):
-    experience = users[str(user.id)]['experience']
-    lvl_start = users[str(user.id)]['level']
-    lvl_end = int(experience ** (1/4))
-    if lvl_start < lvl_end:
-        await channel.send_message(f"Congratulation! {user.mention}, You've leveled up to {lvl_end}!")
-        users[str(user.id)]['level']= lvl_end
+    await member.channel.send(f"{member} has left the family... :PDRpan_no1:")
 @Pan.command(aliases=['say', 'Say'],description="I'll say what you say!")
 async def _Say(ctx, *, msg):
     await ctx.send(f'{msg}{mood}')
@@ -64,11 +35,13 @@ async def _8ball(ctx, *, question):
     'No!',
     'I don\'t know.',
     'Prbably.',
+    'Maybe',
+    'Can you reconstruct the question?',
     'it is possible!',
     'Yagita knows!',
     'Don\'t lose hope!',
-    'Let me think... Ask again later please.',
-    'Nuh-uh!',
+    'Let me think... Ask again please.',
+    'Nuh-uh! ',
     'Sure!',
     'Without a doubt!']
     await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}{mood}')
@@ -105,4 +78,36 @@ async def shutdown(ctx):
     if author.id == 444806806682730496:
         await ctx.send(f"Bye bye{mood}")
         await Pan.logout()
+
+'''#lvling sys (json)
+@Pan.event
+async def on_message(message):
+    if message.author==Pan.user:
+        return
+    with open('usersdata.json','r') as f:
+        users = json.load(f)
+    await update_data(users, message.author)
+    await add_exp(users, message.author,5)
+    await lvl_up(users, message.author, message.channel)
+    with open('usersdata.json','w') as f:
+        json.dump(users,f)
+    await Pan.process_commands(message)
+async def update_data(users, user):
+    if not str(user.id) in users:
+        users[str(user.id)]={}
+        users[str(user.id)]['experience']=0
+        users[str(user.id)]['level']=1
+        users[str(user.id)]['wallet']=1000
+async def add_exp(users,user,exp):
+    users[str(user.id)]['experience'] += exp
+    users[str(user.id)]['wallet'] += (exp*5)
+async def lvl_up(users, user, channel):
+    experience = users[str(user.id)]['experience']
+    lvl_start = users[str(user.id)]['level']
+    lvl_end = int(experience ** (1/4))
+    if lvl_start < lvl_end:
+        await channel.send_message(f"Congratulation! {user.mention}, You've leveled up to {lvl_end}!")
+        users[str(user.id)]['level']= lvl_end
+'''
+
 Pan.run(os.environ['Disc_Token'])
