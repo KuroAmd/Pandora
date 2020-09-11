@@ -27,7 +27,7 @@ async def on_member_remove(member):
 
 @Pan.event
 async def on_message(message):
-    if message.author==client.user:
+    if message.author==Pan.user:
         return
 
     with open('data.json','r') as f:
