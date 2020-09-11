@@ -60,8 +60,11 @@ async def _8ball(ctx, *, question):
 
 @Pan.command(hidden=True)
 async def shred(ctx, amt=3):
-    await ctx.channel.purge(limit=amt)
-    await ctx.send(f'{amt} messages were shredded.{mood}')
+    if author.permissions(administrator):
+        await ctx.channel.purge(limit=amt)
+        await ctx.send(f'{amt} messages were shredded.{mood}')
+    else:
+        await ctx.send("access denied!{0}".format(mood))
 
 @Pan.command(aliases=['prune', 'purge'])
 async def Prune_guide(ctx):
