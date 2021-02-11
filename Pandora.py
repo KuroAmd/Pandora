@@ -82,4 +82,4 @@ async def shutdown(ctx):
     await ctx.send(f"Bye bye{mood}")
     await client.logout()
 
-client.run(os.environ['Disc_Token'])
+client.run(os.environ['Pan_Token'])
