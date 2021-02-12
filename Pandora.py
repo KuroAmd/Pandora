@@ -16,7 +16,7 @@ async def on_ready():
     change_status.start()
 @tasks.loop(minutes=40)
 async def change_status():
-    await client.change_presence(status=discord.Status.idle,activity=discord.Game(next(status)))
+    await client.change_presence(status=discord.Status.online,activity=discord.Game(next(status)))
 
 @client.event
 async def on_disconnect(ctx):
