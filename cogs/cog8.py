@@ -1,7 +1,9 @@
 import discord
 from discord.ext import commands
+from discord import Embed
 import datetime
 import random
+from aiohttp import request
 #import os
 #import pathlib
 
@@ -17,9 +19,37 @@ class Fun(commands.Cog):
 
     #Cmds
 
+
     @commands.command(aliases=['Calc'])
-    async def Calculator(self,ctx):
-        pass
+    async def Calculator(self,ctx,*,equation):
+        ans=equation
+        await ctx.send(f"Answer= {ans}")
+
+
+    @commands.command(aliases=['animalfact','anifact','afact'])
+    async def animal(self,ctx, animal: str):
+        if animal.lower() in ("dog","cat","panda","fox","bird","koala"):
+            fact_URL= f"https://some-random-api.ml/facts/{animal.lower()}"
+            img_URL= f"https://some-random-api.ml/img/{'birb' if animal.lower()=='bird' else animal.lower()}"
+
+            async with request("GET",img_URL,headers={}) as response:
+                if response.status==200:
+                    data= await response.json()
+                    img_link=data["link"]
+
+            async with request("GET",fact_URL,headers={}) as response:
+                if response.status == 200:
+                    data = await response.json()
+
+                    embed=Embed(title=f"{animal.title()} fact",
+                                description=data["fact"],
+                                colour = ctx.author.colour)
+                    embed.set_image(url=img_link)
+                    await ctx.send(embed=embed)
+                else:
+                    await ctx.send(f"API returned: {response.status}")
+        else:
+            await ctx.send(f"Nothing found for {animal.lower()}")
 
 
 
