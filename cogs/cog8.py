@@ -52,6 +52,64 @@ class Fun(commands.Cog):
             await ctx.send(f"Nothing found for {animal.lower()}")
 
 
+    @commands.command(aliases=['Wink'])
+    async def wink(self,ctx):
+        async with request("GET","https://some-random-api.ml/animu/wink",headers={}) as response:
+            if response.status==200:
+                data=await response.json()
+                ImgLink=data["link"]
+                myembed=Embed(title=f"{ctx.author} winks")
+                myembed.set_image(url=ImgLink)
+                await ctx.send(embed=myembed)
+            else:
+                await ctx.send("API returned: {0.status}".format(response))
+
+    @commands.command(aliases=['Pat'])
+    async def pat(self,ctx,player=None):
+        async with request("GET","https://some-random-api.ml/animu/pat",headers={}) as response:
+            if response.status==200:
+                data=await response.json()
+                ImgLink=data["link"]
+                if (player==None):
+                    myembed=Embed(title=f"pats {ctx.author.display_name}")
+                    myembed.set_image(url=ImgLink)
+                else:
+                    myembed=Embed(title=f"{ctx.author} pats {player.display_name}")
+                    myembed.set_image(url=ImgLink)
+                await ctx.send(embed=myembed)
+            else:
+                await ctx.send("API returned: {0.status}".format(response))
+
+    @commands.command(aliases=['Hug'])
+    async def hug(self,ctx,player=None):
+        async with request("GET","https://some-random-api.ml/animu/hug",headers={}) as response:
+            if response.status==200:
+                data=await response.json()
+                ImgLink=data["link"]
+                if (player==None):
+                    myembed=Embed(title=f"hugs {ctx.author.display_name}")
+                    myembed.set_image(url=ImgLink)
+                else:
+                    myembed=Embed(title=f"{ctx.author} hugs {player.display_name}")
+                    myembed.set_image(url=ImgLink)
+                await ctx.send(embed=myembed)
+            else:
+                await ctx.send("API returned: {0.status}".format(response))
+
+    @commands.command(aliases=['Meme','Memes','memes','MEME','MakeMeLaugh','LOL'])
+    async def meme(self,ctx):
+        async with request("GET","https://some-random-api.ml/meme",headers={}) as response:
+            if response.status==200:
+                data=await response.json()
+                ImgLink=data["image"]
+                Cap=data["caption"]
+                Categ=data["category"]
+                myembed=Embed(title=f"{Cap}",description=f"{Categ}")
+                myembed.set_image(url=ImgLink)
+                await ctx.send(embed=myembed)
+            else:
+                await ctx.send("API returned: {0.status}".format(response))
+
 
     @commands.command()
     async def handbook(self,ctx):
