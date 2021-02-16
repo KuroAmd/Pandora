@@ -25,7 +25,7 @@ class Moderating(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def Purge(self, ctx, amt=1):
         await ctx.channel.purge(limit= amt+1)
-        await ctx.send(f"{amt} messages were deleted~")
+        await ctx.send(f"{amt} message(s) were deleted~")
 
 
     @commands.command()
