@@ -20,12 +20,16 @@ class Fun(commands.Cog):
     #Cmds
 
 
-    @commands.command(aliases=['Calc'])
+    @commands.command(aliases=['Calc','calculator'],hidden=True)
     async def Calculator(self,ctx,*,equation):
         ans=equation
         await ctx.send(f"Answer= {ans}")
-
-
+#not working
+    @Calculator.Cog.listener()
+    async def on_command_error(self,ctx,error):
+        await ctx.send(f"Uhm... Don't laugh! but I can't do math\n {error}")
+    
+    
     @commands.command(aliases=['animalfact','anifact','afact'])
     async def animal(self,ctx, animal: str):
         if animal.lower() in ("dog","cat","panda","fox","bird","koala"):
@@ -119,7 +123,7 @@ class Fun(commands.Cog):
         await ctx.send(f'{random.choice(resps)} ')
 
     @commands.command(aliases=['say', 'Say'])
-    async def _Say(self,ctx, *, msg):
+    async def repeatafterme(self,ctx, *, msg):
         await ctx.send(f'{msg}')
 
     @commands.command(hidden=True)
@@ -160,7 +164,7 @@ class Fun(commands.Cog):
         "N O",
         "ahhh My head hurts x_x",
         "Need to think about that... Ask again"]
-        await ctx.send(f"You ask: {question}? \nHmm... {random.choice(responses)}")
+        await ctx.send(f"You ask: {question}? \n {random.choice(responses)}")
 
 
 
