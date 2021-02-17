@@ -25,9 +25,9 @@ class Fun(commands.Cog):
         ans=equation
         await ctx.send(f"Answer= {ans}")
 #not working
-    @Calculator.Cog.listener()
-    async def on_command_error(self,ctx,error):
-        await ctx.send(f"Uhm... Don't laugh! but I can't do math\n {error}")
+#    @commands.Cog.listener()
+#    async def on_command_error(self,ctx,error):
+#        await ctx.send(f"Uhm... Don't laugh! but I can't do math\n {error}")
     
     
     @commands.command(aliases=['animalfact','anifact','afact'])
