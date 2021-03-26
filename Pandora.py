@@ -78,7 +78,7 @@ async def ping(ctx):
 
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
-async def shutdown(ctx):
+async def Shutdown(ctx):
     await ctx.send(f"Bye bye{mood}")
     await client.logout()
 
