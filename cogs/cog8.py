@@ -3,9 +3,18 @@ from discord.ext import commands
 from discord import Embed
 import datetime
 import random
+import aiohttp
 from aiohttp import request
+import urllib.parse, urllib.request, re
+import io
 #import os
 #import pathlib
+
+async def fetch(url):
+    async with aiohttp.ClientSession() as session:
+        res = await session.get(url)
+        html = await res.text()
+        return html
 
 mood = '~'
 
@@ -22,15 +31,97 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=['Calc','calculator'],hidden=True)
     async def Calculator(self,ctx,*,equation):
-        ans=equation
+        return ans=equation
         await ctx.send(f"Answer= {ans}")
 #not working
 #    @commands.Cog.listener()
 #    async def on_command_error(self,ctx,error):
 #        await ctx.send(f"Uhm... Don't laugh! but I can't do math\n {error}")
-    
-    
-    @commands.command(aliases=['animalfact','anifact','afact'])
+
+
+    @commands.command(aliases=['CERN'])
+    async def CernNews(self, ctx):
+        await ctx.trigger_typing()
+
+
+        website = "https://home.cern/news?audience=23"
+        html_text = await fetch(website)
+        soup = BeautifulSoup(html_text, 'lxml')
+        news = soup.find_all('div',class_='views-row')
+        
+        for n in news:
+            try:
+                headlines = n.find('h3', class_='preview-list-title').text
+            except:
+                print("error01")
+                continue
+            try:
+                description = n.find('div', class_='preview-list-strap').text
+                news_date = n.find('div', class_='preview-list-date has-separator').text
+                more_info = ("https://home.cern" + n.h3.a['href'])
+            except:
+                print("something went wrong")
+                await ctx.send("err")
+            if(headlines != None):
+                break
+
+        await ctx.send(f'''
+headlines: {headlines.strip()}
+description: {description.strip()}
+date: {news_date.strip()}\n
+look in {more_info}
+        ''')
+
+
+    @commands.command()
+    async def lyrics(self, ctx, *, arg):
+        await ctx.trigger_typing()
+
+        # em = discord.Embed(title=f"**Looking for {arg}...**")
+
+        arg.replace(' ', '+')
+        
+        lrcsession = aiohttp.ClientSession()
+        lrcgetlnk = await lrcsession.get('https://some-random-api.ml/lyrics?title={}'.format(arg))
+        lrcdata = json.loads(await lrcgetlnk.text())
+
+        lyrrc = (str(lrcdata['lyrics']))
+
+        try:
+            for chunk in [lyrrc[i:i+2000] for i in range(0, len(lyrrc), 2000)]:
+                embed = discord.Embed(title=f"**{(str(lrcdata['title']))}** by {(str(lrcdata['author']))}", description=chunk)
+                #embed.set_footer(text=chunk)
+                embed.set_footer(text="{0}".format(ctx.message.author.name), icon_url=ctx.message.author.avatar_url)
+                #embed.timestamp = datetime.datetime.utcnow()
+                await ctx.send(embed=embed)
+
+        except discord.HTTPException:
+            embe = discord.Embed(title=f"**{(str(lrcdata['title']))} by {(str(lrcdata['author']))}**", description=chunk)
+            embe.set_footer(text="{0}\nID: {1}\n{2}".format(ctx.message.author.name, ctx.message.author.id, datetime.datetime.utcnow().strftime("%A, %B %d %Y at %I:%M:%S %p UTC")), icon_url=ctx.message.author.avatar_url)
+            embe.timestamp = datetime.datetime.utcnow()
+            await ctx.send(embed=embe)
+
+        await lrcsession.close()
+
+
+    @commands.command()
+    async def wasted(self, ctx, member: discord.Member=None):
+        if not member:
+            member = ctx.author
+
+        
+        wastedsession = aiohttp.ClientSession()
+        async with wastedsession.get(f"https://some-random-api.ml/canvas/wasted?avatar={member.avatar_url_as(format='png')}") as img:
+            if img.status != 200:
+                await ctx.send("Unable to get image")
+                await wastedsession.close()      
+            else:
+                data = io.BytesIO(await img.read())
+                await ctx.send(file=discord.File(data, 'wasted.png'))
+                await wastedsession.close()
+
+
+    @commands.command(aliases=['animalfact','afact'])
     async def animal(self,ctx, animal: str):
         if animal.lower() in ("dog","cat","panda","fox","bird","koala"):
             fact_URL= f"https://some-random-api.ml/facts/{animal.lower()}"
