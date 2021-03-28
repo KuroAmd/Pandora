@@ -23,10 +23,10 @@ class Moderating(commands.Cog):
             return [role.name for role in member.roles[1:]] # Remove everyone role!
 
     @commands.command()
-    async def roles(self,ctx, *, member: MemberRoles):
-        if not member:
-            member = ctx.author
-        await ctx.send('{0} got the following roles: '.format(ctx.author) + ', '.join(member))
+    async def roles(self,ctx, *, roles: MemberRoles = None):
+        if not role:
+            role = ctx.author
+        await ctx.send('{0} s/he got the following roles: `'.format(ctx.author) + ', '.join(member) + '`')
 
     @commands.command(aliases=['avatar','av','pfp'])
     async def Avatar(self, ctx, member: discord.Member=None):
