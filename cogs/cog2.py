@@ -24,6 +24,8 @@ class Moderating(commands.Cog):
 
     @commands.command()
     async def roles(self,ctx, *, member: MemberRoles):
+        if not member:
+            member = ctx.author
         await ctx.send('{0} got the following roles: '.format(ctx.author) + ', '.join(member))
 
     @commands.command(aliases=['avatar','av','pfp'])
