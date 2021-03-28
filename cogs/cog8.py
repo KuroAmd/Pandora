@@ -74,37 +74,6 @@ look in {more_info}
 
 
     @commands.command()
-    async def lyrics(self, ctx, *, arg):
-        await ctx.trigger_typing()
-
-        # em = discord.Embed(title=f"**Looking for {arg}...**")
-
-        arg.replace(' ', '+')
-        
-        lrcsession = aiohttp.ClientSession()
-        lrcgetlnk = await lrcsession.get('https://some-random-api.ml/lyrics?title={}'.format(arg))
-        lrcdata = json.loads(await lrcgetlnk.text())
-
-        lyrrc = (str(lrcdata['lyrics']))
-
-        try:
-            for chunk in [lyrrc[i:i+2000] for i in range(0, len(lyrrc), 2000)]:
-                embed = discord.Embed(title=f"**{(str(lrcdata['title']))}** by {(str(lrcdata['author']))}", description=chunk)
-                #embed.set_footer(text=chunk)
-                embed.set_footer(text="{0}".format(ctx.message.author.name), icon_url=ctx.message.author.avatar_url)
-                #embed.timestamp = datetime.datetime.utcnow()
-                await ctx.send(embed=embed)
-
-        except discord.HTTPException:
-            embe = discord.Embed(title=f"**{(str(lrcdata['title']))} by {(str(lrcdata['author']))}**", description=chunk)
-            embe.set_footer(text="{0}\nID: {1}\n{2}".format(ctx.message.author.name, ctx.message.author.id, datetime.datetime.utcnow().strftime("%A, %B %d %Y at %I:%M:%S %p UTC")), icon_url=ctx.message.author.avatar_url)
-            embe.timestamp = datetime.datetime.utcnow()
-            await ctx.send(embed=embe)
-
-        await lrcsession.close()
-
-
-    @commands.command()
     async def wasted(self, ctx, member: discord.Member=None):
         if not member:
             member = ctx.author
@@ -205,13 +174,6 @@ look in {more_info}
             else:
                 await ctx.send("API returned: {0.status}".format(response))
 
-
-    @commands.command()
-    async def handbook(self,ctx):
-        resps = ["**June:**\n > In the final battle, the Souring Devil faction set out to capture Pandora Z in her awakened form. In order to overcome the ultimate weapon, June surrendered control to Bloody Mary, a witch with a lust for chaos and destruction. Just as with me(Pandora) losing her personality in Omega form, June's persona is lost to madness. Now she is the Blood Witch.",
-        "**Genbue**\n > Forgot to read about her, sowwy! ><"
-        ]
-        await ctx.send(f'{random.choice(resps)} ')
 
     @commands.command(aliases=['say', 'Say'])
     async def repeatafterme(self,ctx, *, msg):
