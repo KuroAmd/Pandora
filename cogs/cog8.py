@@ -29,10 +29,6 @@ class Fun(commands.Cog):
     #Cmds
 
 
-    @commands.command(aliases=['Calc','calculator'],hidden=True)
-    async def Calculator(self,ctx,*,equation):
-        return ans=equation
-        await ctx.send(f"Answer= {ans}")
 #not working
 #    @commands.Cog.listener()
 #    async def on_command_error(self,ctx,error):
