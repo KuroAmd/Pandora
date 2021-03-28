@@ -3,4 +3,3 @@ datetime
 aiohttp
 bs4
 requests
-urllib
