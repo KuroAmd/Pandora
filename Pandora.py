@@ -8,7 +8,7 @@ myprefix='*'
 client= commands.Bot(commands.when_mentioned_or(myprefix))
 
 status= cycle(["Where is Yagita?","with Yagita","Law of Creation"])
-extentions = ['cog1','cog2','cog3','cog4','cog8','cog10']
+extentions = ['cog1','cog2','cog3','cog4','cog5','cog8','cog9','cog10']
 
 @client.event
 async def on_ready():
