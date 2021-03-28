@@ -213,7 +213,8 @@ look in {more_info}
         "N O",
         "ahhh My head hurts x_x",
         "Need to think about that... Ask again"]
-        await ctx.send(f"You ask: {question}? \n {random.choice(responses)}")
+        await ctx.send(f"You ask: {question}?")
+        await ctx.send(f"{random.choice(responses)}")
 
 
 
