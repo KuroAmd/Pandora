@@ -3,3 +3,4 @@ datetime
 aiohttp
 bs4
 requests
+pathlib
