@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import datetime
 #import os
-#import pathlib
+import asyncio
 
 mood = '~'
 
@@ -15,7 +15,9 @@ class CustomCmds(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
-            await ctx.send("I don't understand, is that a new command?")
+            Bmsg = await ctx.send("I don't understand, is that a new command?")
+            await asyncio.sleep(3)
+            await Bmsg.delete()
 
 
 
