@@ -1,11 +1,22 @@
 import discord
+from discord import Embed
 from discord.ext import commands
+#import numpy
 import random
 import datetime
+
 import asyncio
 import py_compile
 import pydoc
 import pydoc_data
+#import subprocess
+#import sys
+#import os
+import io
+import contextlib
+#import importlib
+#import pickle
+#import pprint
 import re
 
 
@@ -20,26 +31,67 @@ class Moderating(commands.Cog):
     class MemberRoles(commands.MemberConverter):
         async def convert(self, ctx, argument):
             member = await super().convert(ctx, argument)
-            return [role.name for role in member.roles[1:]] # Remove everyone role!
+            return [role.name for role in member.roles[1:]] # return roles exluding everyone role!
 
     @commands.command()
     async def roles(self,ctx, *, roles: MemberRoles = None):
-        if not role:
-            role = ctx.author
-        await ctx.send('{0} s/he got the following roles: `'.format(ctx.author) + ', '.join(member) + '`')
+        if roles==None:
+            roles=ctx.author
+        await ctx.send(f'{ctx.author} they got the following roles: `' + ', '.join(roles) + '`')
+
+    @commands.command(aliases= ["user"])
+    async def userinfo(self, ctx, user:discord.User=None):
+        if not user:
+            user= ctx.author
+        em= discord.Embed(title= user.name,url= str(user.avatar_url), description= f"\nHighest role: {user.top_role}\nJoined {user.joined_at}", colour= user.colour)
+        em.insert_field_at(0,name= "Name",value= f"{user.mention} (AKA {user.nick})\n\nID: {user.id}")
+        em.add_field(name= "Status", value= user.status)
+        em.set_thumbnail(url= user.avatar_url)
+        em.set_footer(text= "-", icon_url= ctx.author.avatar_url)
+        await ctx.send(embed= em)
+        
+
+    @commands.command(aliases= ['server'])
+    async def serverinfo(self,ctx):
+   
+        em = discord.Embed(
+        title=ctx.guild.name,
+        description="description: "+ str(ctx.guild.description) +"\nRules "+ str(ctx.guild.rules_channel) +"\nSystem Channel "+ str(ctx.guild.system_channel),
+        colour=discord.Colour.blue())
+        em.set_thumbnail(url= ctx.guild.icon_url)
+        em.add_field(name="Owner", value=ctx.guild.owner)
+        em.add_field(name="Server ID", value=ctx.guild.id)
+        em.add_field(name="Region", value=ctx.guild.region)
+        em.add_field(name="Member Count", value=ctx.guild.member_count, inline=True)
+        em.add_field(name= "Created", value= ctx.guild.created_at)
+       # em.add_field(name= "Roles",value= ctx.guild.roles)
+
+        await ctx.send(embed=em)
+
+
+
+    @commands.command()
+    async def findmsg(self,ctx, I:int):
+        try:
+            ms = await ctx.fetch_message(I)
+            await ctx.send(ms)
+            print('success')
+        except Exception as e:
+            print(e)
 
     @commands.command(aliases=['avatar','av','pfp'])
-    async def Avatar(self, ctx, member: discord.Member=None):
+    async def Avatar(self, ctx, member: discord.User=None):
         if member==None:
             member=ctx.author
         em= Embed(title=member.display_name,
-                colour=ctx.author.colour)
+        colour=ctx.author.colour)
         em.set_image(url=member.avatar_url)
         await ctx.send(embed=em)
 
-        
-    @commands.command()
-    async def Py(self, ctx, *,args):
+
+    @commands.command(hidden=True,aliases=['eval','compute','calc'])
+    async def Eval(self, ctx, *,args):
+        await ctx.trigger_typing()
         print(args)
         if ctx.author.id == 444806806682730496 or 435104102599360522:
             await ctx.trigger_typing()
@@ -79,12 +131,69 @@ class Moderating(commands.Cog):
             ctx.send("Not allowed to use!")
 
 
-    @commands.command(aliases=['prune'])
-    @commands.has_permissions(administrator=True)
-    async def Purge(self, ctx, amt=1):
-        await ctx.channel.purge(limit= amt+1)
-        await ctx.send(f"{amt} message(s) were deleted~")
+    @commands.command(aliases=['ec'],hidden=True)
+    async def evalcode(self, ctx, *, args):
+        await ctx.trigger_typing()
+        if ctx.author.id == 444806806682730496 or 435104102599360522:
+            client = ctx.bot
+            channel = ctx.channel
+            content = ctx.message.content.split("```")[1].strip("```")
+            if content.startswith("python"):
+                content = content.split("python", 1)[1]
+            if content.startswith("py"):
+                content = content.split("py", 1)[1]
+            content = content.replace(r"\n", "\n")
+            content = content.replace(r"\t", "    ")
+            print(content)
+            x = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(x):
+                    exec(content, globals(), locals())
+                if x.getvalue():
+                    mapping = enumerate(x.getvalue().split("\n"))
+                    mapping = list(mapping)[:-1]
+                    mult = len(str(len(mapping))) + 1
+                   # print(mul)
+                    res = "\n".join(map(lambda y: f"{y[0]}.{' ' * (mult - len(str(y[0])))}|{y[1]}", mapping))
+                   # print(res)
+              
+                await ctx.send(f"```python\n{re.sub(r'```', '', res)}```")
+            except Exception as e:
+                await ctx.send(e)
+                return "Error", str(e), "error"
+        else:
+            await ctx.send("Not allowed!")
 
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def testin(self,ctx,*, msg):
+        '''just owner playing randomly with me'''
+        await ctx.message.add_reaction("✅") #did not work
+      #  if ctx.author.id == :
+      #      await ctx.message.add_reaction("❌")
+        print(ctx.author, ctx.message, ctx.channel, ctx.channel.id) #works well
+        print(ctx.author.id, ctx.message.channel.id, ctx.message.guild)
+
+
+    @commands.command(aliases=['Purge','purge'])
+    @commands.has_permissions(administrator=True)
+    async def Kill(self, ctx, amt=10):
+        await ctx.trigger_typing()
+        await ctx.channel.purge(limit= amt+1)
+        await ctx.send(f"{amt} souldregs were killed ")
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def Kill_all(self, ctx):
+        await ctx.trigger_typing()
+        msgs = await ctx.channel.history(limit=10).flatten()
+        print(msgs)
+        async for msg in ctx.channel.history(limit=200):
+            await ctx.channel.purge(limit=100)
+        Bmsg = await ctx.send("Channel Killed")
+        await asyncio.sleep(10)
+        await Bmsg.delete()
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -111,6 +220,10 @@ class Moderating(commands.Cog):
                 return
 
 
+    @commands.command(aliases=['Modding','ModHelp'])
+    async def mod_help(self, ctx):
+        '''Incomplete...'''
+        await ctx.send("uhm...")
 
 
 
