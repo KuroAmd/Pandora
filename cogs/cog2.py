@@ -128,7 +128,7 @@ class Moderating(commands.Cog):
             await ctx.send(embed= discord.Embed(title="Success",description=f"```{str(x)}```",timestamp=datetime.datetime.utcnow()))
         
         else:
-            ctx.send("Not allowed to use!")
+            await ctx.send("Not allowed to use!")
 
 
     @commands.command(aliases=['ec'],hidden=True)
