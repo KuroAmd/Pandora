@@ -91,9 +91,9 @@ class Moderating(commands.Cog):
 
     @commands.command(hidden=True,aliases=['eval','compute','calc'])
     async def Eval(self, ctx, *,args):
-        await ctx.trigger_typing()
+        #await ctx.trigger_typing()
         print(args)
-        if ctx.author.id == 444806806682730496 or 435104102599360522:
+        if ctx.author.id in (444806806682730496 , 435104102599360522):
             await ctx.trigger_typing()
             def python(py_args):
                 py_args = (re.search(r"\(.*\)",py_args).group()[1:-1])
@@ -134,7 +134,7 @@ class Moderating(commands.Cog):
     @commands.command(aliases=['ec'],hidden=True)
     async def evalcode(self, ctx, *, args):
         await ctx.trigger_typing()
-        if ctx.author.id == 444806806682730496 or 435104102599360522:
+        if ctx.author.id in (444806806682730496 , 435104102599360522):
             client = ctx.bot
             channel = ctx.channel
             content = ctx.message.content.split("```")[1].strip("```")
