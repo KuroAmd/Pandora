@@ -5,7 +5,10 @@ from itertools import cycle
 
 mood = '~'
 myprefix='*'
-client= commands.Bot(commands.when_mentioned_or(myprefix))
+intents=discord.Intents.all()
+h_cmd = commands.DefaultHelpCommand(no_category="Other Commands")
+
+client= commands.Bot(commands.when_mentioned_or(myprefix),intents=intents,help_command=h_cmd)
 
 status= cycle(["Where is Yagita?","with Yagita","Law of Creation"])
 extentions = ['cog1','cog2','cog3','cog4','cog5','cog8','cog9','cog10']
@@ -25,6 +28,8 @@ async def on_disconnect(ctx):
 
 @client.event
 async def on_command_error(ctx, error):
+    print(error)
+	await ctx.send(embed=discord.Embed(title='Error', description=f'{error}', colour=16711680))
     if (1==0):
         pass
 
