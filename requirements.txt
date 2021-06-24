@@ -6,3 +6,6 @@ requests
 pathlib
 lxml
 youtube_dl
+worldmeter
+wikipedia
+PyNaCl
