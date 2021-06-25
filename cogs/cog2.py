@@ -1,14 +1,14 @@
 import discord
 from discord import Embed
 from discord.ext import commands
-#import numpy
-import random
+import google_trans_new
+#import random
 import datetime
 
 import asyncio
-import py_compile
+#import py_compile
 import pydoc
-import pydoc_data
+#import pydoc_data
 #import subprocess
 #import sys
 #import os
@@ -65,10 +65,23 @@ class Moderating(commands.Cog):
         em.add_field(name="Member Count", value=ctx.guild.member_count, inline=True)
         em.add_field(name= "Created", value= ctx.guild.created_at)
        # em.add_field(name= "Roles",value= ctx.guild.roles)
+        em.add_field(name= "Channel Count", value=len(ctx.guild.channels))
+        em.add_field(name="Channels", value= str(len(ctx.guild.text_channels)) +" Text Channels\n"+ str(len(ctx.guild.voice_channels)) +" Voice Channels")
 
         await ctx.send(embed=em)
 
 
+    @commands.command(hidden= True)
+    #@commands.has_permissions(administrator= True)
+    async def Log(self, ctx, num= 1):
+      if ctx.author.id == 444806806682730496:
+        count= 1
+        async for entry in ctx.guild.audit_logs(limit=num):
+            print('{0.user} did {0.action} to {0.target}'.format(entry))
+            await ctx.send(embed= Embed(title= "last " +str(count), description= "{0.user} did {0.action} to {0.target}".format(entry), colour= discord.Colour.purple()))
+            count+= 1
+      else:
+        print(ctx.author + " attempted to see the logs")
 
     @commands.command()
     async def findmsg(self,ctx, I:int):
@@ -169,8 +182,8 @@ class Moderating(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def testin(self,ctx,*, msg):
         '''just owner playing randomly with me'''
-        await ctx.message.add_reaction("✅") #did not work
-      #  if ctx.author.id == :
+        await ctx.message.add_reaction("✅") # reaction intent
+      #  if ctx.author.id != :
       #      await ctx.message.add_reaction("❌")
         print(ctx.author, ctx.message, ctx.channel, ctx.channel.id) #works well
         print(ctx.author.id, ctx.message.channel.id, ctx.message.guild)
@@ -178,23 +191,48 @@ class Moderating(commands.Cog):
 
     @commands.command(aliases=['Purge','purge'])
     @commands.has_permissions(administrator=True)
-    async def Kill(self, ctx, amt=10):
+    async def Prune(self, ctx, amt=10):
         await ctx.trigger_typing()
         await ctx.channel.purge(limit= amt+1)
-        await ctx.send(f"{amt} souldregs were killed ")
+        await ctx.send(f"there was~~not~~ {amt} messages")
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def Kill_all(self, ctx):
+    async def Prune_Channel(self, ctx):
         await ctx.trigger_typing()
         msgs = await ctx.channel.history(limit=10).flatten()
         print(msgs)
         async for msg in ctx.channel.history(limit=200):
             await ctx.channel.purge(limit=100)
         Bmsg = await ctx.send("Channel Killed")
-        await asyncio.sleep(10)
-        await Bmsg.delete()
+        await Bmsg.delete(delay=15)
 
+        
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def Mute(self, ctx, member:discord.Member, dur=0):
+        r = discord.utils.get(ctx.guild.roles, name="Muted")
+        print(r)
+        if not r:
+            r= await ctx.guild.create_role(name="Muted", permissions=discord.Permissions(send_messages=False, change_nickname=False))
+            #r= discord.utils.get(ctx.guild.roles, name="Muted")
+            print(r)
+            bmsg= await ctx.send("mute role created!")
+            print(bmsg)
+        await member.add_roles(r)
+        #await asyncio.sleep(2)
+        try:
+            await bmsg.delete(delay=2)
+        except:
+            pass
+        if(dur==0):
+            await ctx.send(f"{member.mention} has been muted for being naughty")
+            return
+        await ctx.send(f"{member.mention} is muted for {dur}s!")
+        await asyncio.sleep(dur)
+        await member.remove_roles(r)
+        await ctx.send(f"{member} is now unmuted, behave!{mood}")
+        
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def Kick(self,ctx, member : discord.Member, *, reason=None):
