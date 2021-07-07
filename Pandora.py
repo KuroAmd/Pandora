@@ -23,18 +23,18 @@ async def change_status():
 
 @client.event
 async def on_disconnect(ctx):
-    print("disconnected")
-    await ctx.send("GTG")
+	print("disconnected")
+	await ctx.send("GTG")
 
 @client.event
 async def on_command_error(ctx, error):
-    print(error)
+	print(error)
 	await ctx.send(embed=discord.Embed(title='Error', description=f'{error}', colour=16711680))
-    if (1==0):
-        pass
+	if (1==0):
+        	pass
 
-    elif isinstance(error , commands.MissingRequiredArgument):
-        await ctx.send("Missing Argument{0}".format(mood))
+	elif isinstance(error , commands.MissingRequiredArgument):
+        	await ctx.send("Missing Argument{0}".format(mood))
     
 
 @client.command(hidden=True)
