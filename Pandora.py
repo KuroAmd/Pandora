@@ -29,6 +29,7 @@ async def on_disconnect(ctx):
 
 @client.event
 async def on_reaction_add(reaction, user):
+	try:
     print(reaction)
     print(user)
     #print(reaction.message)
@@ -46,6 +47,8 @@ async def on_reaction_add(reaction, user):
         em = Embed(title=msg, description=tmsg, colour=user.colour)
         em.set_footer(text= reaction.message.author.display_name,icon_url=reaction.message.author.avatar_url)
         await reaction.message.channel.send(embed=em)
+	except:
+		print("error, on_reaction")
 
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
@@ -92,13 +95,13 @@ if __name__ == '__main__':
 
 @client.command(aliases=['Ping','PING'])
 async def ping(ctx):
-    await ctx.send(f"Pong{mood}! {round(client.latency *1000)}ms")
+	await ctx.send(f"Pong{mood}! {round(client.latency *1000)}ms")
 
 
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
 async def Shutdown(ctx):
-    await ctx.send(f"Bye bye{mood}")
-    await client.logout()
+	await ctx.send(f"Bye bye{mood}")
+	await client.logout()
 
 client.run(os.environ['Pan_Token'])
