@@ -15,12 +15,11 @@ class CustomCmds(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
-            Bmsg = await ctx.send("I don't understand, is that a new command?")
-            await asyncio.sleep(3)
-            await Bmsg.delete()
-
-
-
+          Bmsg = await ctx.send("I don't understand, is that a new command?")
+          await Bmsg.delete(delay=3)
+          return
+        print(error)
+        await ctx.send(embed=discord.Embed(title='Error', description=f'{error}', colour=16711680))
 
 
 
