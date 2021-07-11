@@ -35,6 +35,8 @@ async def on_command_error(ctx, error):
 
 	elif isinstance(error , commands.MissingRequiredArgument):
         	await ctx.send("Missing Argument{0}".format(mood))
+	elif isinstance(error, commands.CommandNotFound):
+		print(error)
     
 
 @client.command(hidden=True)
