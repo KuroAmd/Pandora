@@ -29,7 +29,7 @@ async def on_disconnect(ctx):
 
 @client.event
 async def on_reaction_add(reaction, user):
-	try:
+  try:
     print(reaction)
     print(user)
     #print(reaction.message)
@@ -47,8 +47,8 @@ async def on_reaction_add(reaction, user):
         em = Embed(title=msg, description=tmsg, colour=user.colour)
         em.set_footer(text= reaction.message.author.display_name,icon_url=reaction.message.author.avatar_url)
         await reaction.message.channel.send(embed=em)
-	except:
-		print("error, on_reaction")
+  except:
+    print("error, on_reaction")
 
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
