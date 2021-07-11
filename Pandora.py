@@ -11,7 +11,7 @@ h_cmd = commands.DefaultHelpCommand(no_category="Other Commands")
 client= commands.Bot(commands.when_mentioned_or(myprefix),intents=intents,help_command=h_cmd)
 
 status= cycle(["Where is Yagita?","with Yagita","Law of Creation"])
-extentions = ['cog1','cog2','cog3','cog4','cog5','cog8','cog9','cog10']
+extentions = ['cog1','cog2','cog3','cog5','cog8','cog9','cog10']
 
 @client.event
 async def on_ready():
@@ -48,6 +48,7 @@ async def Load(ctx,extention):
         await ctx.send(f"{extention} added")
     except Exception as error:
         print('{0} error [{1}]'.format(extention,error))
+	await ctx.send(embed=discord.Embed(title="ext. error",description=error,colour=16711680))
 
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
@@ -58,6 +59,7 @@ async def Unload(ctx,extention):
         await ctx.send(f"Removed {extention}")
     except Exception as error:
         print('Error: [{1}]'.format(error))
+	await ctx.send(embed=discord.Embed(title="ext. error",description=error,colour=16711680))
 
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
@@ -69,6 +71,8 @@ async def Reload(ctx, extention):
         await ctx.send("Reloaded")
     except Exception as error:
         await ctx.send(f"Error: [{error}]")
+	await ctx.send(embed=discord.Embed(title="ext. error",description=error,colour=16711680))
+
 
 if __name__ == '__main__':
     for extention in extentions:
