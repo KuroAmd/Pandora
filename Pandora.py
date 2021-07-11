@@ -31,10 +31,10 @@ async def on_command_error(ctx, error):
 	print(error)
 	await ctx.send(embed=discord.Embed(title='Error', description=f'{error}', colour=16711680))
 	if (1==0):
-        	pass
+		pass
 
 	elif isinstance(error , commands.MissingRequiredArgument):
-        	await ctx.send("Missing Argument{0}".format(mood))
+		await ctx.send("Missing Argument{0}".format(mood))
 	elif isinstance(error, commands.CommandNotFound):
 		print(error)
     
@@ -45,7 +45,7 @@ async def Load(ctx,extention):
     try:
         client.load_extension('cogs.{0}'.format(extention))
         print('Loaded {0}'.format(extention))
-        await ctx.send(f"{extention} added")
+				await ctx.send(f"{extention} added")
     except Exception as error:
 	print('{0} error [{1}]'.format(extention,error))
 	await ctx.send(embed=discord.Embed(title=f"{extention} error",description=error,colour=16711680))
