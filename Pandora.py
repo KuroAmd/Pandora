@@ -43,35 +43,35 @@ async def on_command_error(ctx, error):
 @commands.has_permissions(administrator=True)
 async def Load(ctx,extention):
     try:
-        client.load_extension('cogs.{0}'.format(extention))
-        print('Loaded {0}'.format(extention))
+				client.load_extension('cogs.{0}'.format(extention))
+				print('Loaded {0}'.format(extention))
 				await ctx.send(f"{extention} added")
-    except Exception as error:
-	print('{0} error [{1}]'.format(extention,error))
-	await ctx.send(embed=discord.Embed(title=f"{extention} error",description=error,colour=16711680))
+		except Exception as error:
+				print('{0} error [{1}]'.format(extention,error))
+				await ctx.send(embed=discord.Embed(title=f"{extention} error",description=error,colour=16711680))
 
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
 async def Unload(ctx,extention):
     try:
-        client.unload_extension(f'cogs.{extention}')
-        print('unloaded {0}'.format(extention))
-        await ctx.send(f"Removed {extention}")
-    except Exception as error:
-	print('Error: [{1}]'.format(error))
-	await ctx.send(embed=discord.Embed(title=f"{extention} error",description=error,colour=16711680))
+				client.unload_extension(f'cogs.{extention}')
+				print('unloaded {0}'.format(extention))
+				await ctx.send(f"Removed {extention}")
+		except Exception as error:
+				print('Error: [{1}]'.format(error))
+				await ctx.send(embed=discord.Embed(title=f"{extention} error",description=error,colour=16711680))
 
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
 async def Reload(ctx, extention):
     try:
-        client.unload_extension('cogs.{0}'.format(extention))
-        client.load_extension('cogs.{0}'.format(extention))
-        print('Reloaded {0}'.format(extention))
-        await ctx.send("Reloaded")
-    except Exception as error:
-	await ctx.send(f"Error: [{error}]")
-	await ctx.send(embed=discord.Embed(title=f"{extention} error",description=error,colour=16711680))
+				client.unload_extension('cogs.{0}'.format(extention))
+				client.load_extension('cogs.{0}'.format(extention))
+				print('Reloaded {0}'.format(extention))
+				await ctx.send("Reloaded")
+		except Exception as error:
+				await ctx.send(f"Error: [{error}]")
+				await ctx.send(embed=discord.Embed(title=f"{extention} error",description=error,colour=16711680))
 
 
 if __name__ == '__main__':
