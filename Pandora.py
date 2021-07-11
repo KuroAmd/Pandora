@@ -26,19 +26,6 @@ async def on_disconnect(ctx):
 	print("disconnected")
 	await ctx.send("GTG")
 
-@client.event
-async def on_command_error(ctx, error):
-	print(error)
-	await ctx.send(embed=discord.Embed(title='Error', description=f'{error}', colour=16711680))
-	if (1==0):
-		pass
-
-	elif isinstance(error , commands.MissingRequiredArgument):
-		await ctx.send("Missing Argument{0}".format(mood))
-	elif isinstance(error, commands.CommandNotFound):
-		print(error)
-    
-
 @client.command(hidden=True)
 @commands.has_permissions(administrator=True)
 async def Load(ctx,extention):
