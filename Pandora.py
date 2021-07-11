@@ -28,14 +28,14 @@ async def on_disconnect(ctx):
 	await ctx.send("GTG")
 
 @client.event
-async def on_reaction_add(self, reaction, user):
+async def on_reaction_add(reaction, user):
     print(reaction)
     print(user)
     #print(reaction.message)
     msg = reaction.message.content
     #print(msg)
     #print(self.client)
-    if user==self.client.user:
+    if user==client.user:
         print("It's my reaction!")
         return
     if str(reaction.emoji)=="🏳️":
