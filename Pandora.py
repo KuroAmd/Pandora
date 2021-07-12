@@ -30,8 +30,8 @@ async def on_disconnect(ctx):
 @client.event
 async def on_reaction_add(reaction, user):
   try:
-    print(reaction)
-    print(user)
+    #print(reaction)
+    #print(user)
     #print(reaction.message)
     msg = reaction.message.content
     #print(msg)
@@ -44,7 +44,7 @@ async def on_reaction_add(reaction, user):
         tmsg = gt.translate(msg, lang_tgt='en')
         #print(tmsg)
         #print(reaction.message.channel)
-        em = Embed(title=msg, description=tmsg, colour=user.colour)
+        em = discord.Embed(title=msg, description=tmsg, colour=user.colour)
         em.set_footer(text= reaction.message.author.display_name,icon_url=reaction.message.author.avatar_url)
         await reaction.message.channel.send(embed=em)
   except:
