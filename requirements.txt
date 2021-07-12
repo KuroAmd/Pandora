@@ -9,3 +9,4 @@ youtube_dl
 worldmeter
 wikipedia
 PyNaCl
+google-trans-new
