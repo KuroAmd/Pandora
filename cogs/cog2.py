@@ -63,7 +63,7 @@ class Moderating(commands.Cog):
         em.set_thumbnail(url= user.avatar_url)
         em.set_footer(text= "-", icon_url= ctx.author.avatar_url)
         try:
-          em.add_field(name=user.public_flags)
+          em.add_field(name='publicflags',value=user.public_flags)
         except:
           pass
         await ctx.send(embed= em)
