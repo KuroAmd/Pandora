@@ -47,7 +47,7 @@ class Moderating(commands.Cog):
             try:
                 des=f"\nHighest role: {user.top_role}\n\nJoined at **{user.joined_at.replace(microsecond=0)}**"
             except:
-                des=f"Joined at *{user.joined_at.replace(microsecond=0)}**"
+                pass
             col=user.colour
             nick=user.nick
         else:
