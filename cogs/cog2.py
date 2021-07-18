@@ -44,7 +44,10 @@ class Moderating(commands.Cog):
         if not user:
             user= ctx.author
         if user in ctx.guild.members:
-            des=f"\nHighest role: {user.top_role}\n\nJoined at **{user.joined_at.replace(microsecond=0)}**"
+            try:
+                des=f"\nHighest role: {user.top_role}\n\nJoined at **{user.joined_at.replace(microsecond=0)}**"
+            except:
+                des=f"Joined at *{user.joined_at.replace(microsecond=0)}**"
             col=user.colour
             nick=user.nick
         else:
@@ -56,8 +59,14 @@ class Moderating(commands.Cog):
           b="discord user"
 
         em= Embed(title= user.name,url= str(user.avatar_url), description= des, colour= col)
-        em.insert_field_at(0,name= "Name",value= f"{user.mention} (AKA {nick})\n\nID: {user.id}")
-        em.add_field(name=f"{b} Account",value= f"since {user.created_at.replace(microsecond=0)}")
+        try:
+            em.insert_field_at(0,name= "Name",value= f"{user.mention} (AKA {nick})\n\nID: {user.id}")
+        except:
+            pass
+        try:
+            em.add_field(name=f"{b} Account",value= f"since {user.created_at.replace(microsecond=0)}")
+        except:
+            pass
         if user in ctx.guild.members:
           em.add_field(name= "Status", value= user.status)
         em.set_thumbnail(url= user.avatar_url)
