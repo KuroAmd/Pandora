@@ -39,17 +39,34 @@ class Moderating(commands.Cog):
             roles=ctx.author
         await ctx.send(f'{ctx.author} they got the following roles: `' + ', '.join(roles) + '`')
 
-    @commands.command(aliases= ["user"])
+    @commands.command(aliases= ["user","info"])
     async def userinfo(self, ctx, user:discord.User=None):
         if not user:
             user= ctx.author
-        em= discord.Embed(title= user.name,url= str(user.avatar_url), description= f"\nHighest role: {user.top_role}\nJoined {user.joined_at}", colour= user.colour)
-        em.insert_field_at(0,name= "Name",value= f"{user.mention} (AKA {user.nick})\n\nID: {user.id}")
-        em.add_field(name= "Status", value= user.status)
+        if user in ctx.guild.members:
+            des=f"\nHighest role: {user.top_role}\n\nJoined at **{user.joined_at.replace(microsecond=0)}**"
+            col=user.colour
+            nick=user.nick
+        else:
+            des=nick="User is not in the server!"
+            col=discord.Colour.dark_gray()
+        if user.bot:
+          b="Bot"
+        else:
+          b="discord user"
+
+        em= Embed(title= user.name,url= str(user.avatar_url), description= des, colour= col)
+        em.insert_field_at(0,name= "Name",value= f"{user.mention} (AKA {nick})\n\nID: {user.id}")
+        em.add_field(name=f"{b} Account",value= f"since {user.created_at.replace(microsecond=0)}")
+        if user in ctx.guild.members:
+          em.add_field(name= "Status", value= user.status)
         em.set_thumbnail(url= user.avatar_url)
         em.set_footer(text= "-", icon_url= ctx.author.avatar_url)
+        try:
+          em.add_field(name=user.public_flags)
+        except:
+          pass
         await ctx.send(embed= em)
-        
 
     @commands.command(aliases= ['server'])
     async def serverinfo(self,ctx):
