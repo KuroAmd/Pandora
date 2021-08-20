@@ -125,7 +125,7 @@ look in {more_info}
                 await ctx.send("API returned: {0.status}".format(response))
 
     @commands.command(aliases=['Pat'])
-    async def pat(self,ctx,player=None):
+    async def pat(self,ctx,player=None:discord.Member):
         async with request("GET","https://some-random-api.ml/animu/pat",headers={}) as response:
             if response.status==200:
                 data=await response.json()
@@ -141,7 +141,7 @@ look in {more_info}
                 await ctx.send("API returned: {0.status}".format(response))
 
     @commands.command(aliases=['Hug'])
-    async def hug(self,ctx,player=None):
+    async def hug(self,ctx,player=None:discord.Member):
         async with request("GET","https://some-random-api.ml/animu/hug",headers={}) as response:
             if response.status==200:
                 data=await response.json()
