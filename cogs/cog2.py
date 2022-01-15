@@ -1,25 +1,18 @@
 import discord
 from discord import Embed
 from discord.ext import commands
-#import google_trans_new
-#import random
+
 import datetime
-## From Lys
 import asyncio
-#import py_compile
+
 import pydoc
-#import pydoc_data
-#import subprocess
-#import sys
+
 import os
 import io
 import contextlib
-#import importlib
-#import pickle
-#import pprint
+
 import re
-#import roundTime
-import wolframalpha
+#import wolframalpha
 from replit import db
 
 
@@ -195,27 +188,6 @@ class Moderating(commands.Cog):
         colour=u.colour)
         em.set_image(url=u.avatar_url)
         await ctx.send(embed=em)
-
-# # Should probably move WA to cog11
-    @commands.command(aliases=['maths','w_a','alpha',"ولفرام","الفا"])
-    @commands.check(adminpowa)
-    #@commands.check_any(mee,alex)## Requires commands.check again in func
-    async def wolfram(self,ctx,*,q):
-      a_id= os.getenv("WA")
-      print(a_id)
-      print(type(a_id))
-      client= wolframalpha.Client(a_id)
-      res=client.query(q)
-      print(q)
-      print(res)
-      ans="```Answers:```\n"
-      for pod in res.pods:
-        for sub in pod.subpods:
-          print(sub.plaintext)
-          if sub.plaintext:
-            ans+=sub.plaintext +"\n"
-      em= Embed(title=q,description=ans, colour=discord.Colour.gold())
-      await ctx.send(embed=em)
 
 
     @commands.command(hidden=True,aliases=['eval','compute','calc',"حساب","حاسبة"])
