@@ -33,21 +33,6 @@ class Moderating(commands.Cog):
     def aaa(ctx):
       return ctx.author.permissions_in(ctx.channel).administrator
       
-#   Test
-    @commands.command()
-    @commands.check(aaa)
-    async def testin(self,ctx,*msg):
-        '''just owner playing randomly with me'''
-        await ctx.message.add_reaction("✅") #did work! (Intent needs to be on)
-        
-        bmsg= await ctx.send(f"test {self.client.emojis[3]}")
-        await bmsg.add_reaction(self.client.emojis[30])
-        #await bmsg.delete(delay=5)
-      #  if ctx.author.id == :
-      #      await ctx.message.add_reaction("❌")
-        print(ctx.author, ctx.message, ctx.channel, ctx.channel.id) #works well
-        print(ctx.author.id, ctx.message.channel.id, ctx.message.guild)
-        print(ctx.message.reactions)
 
     @commands.command()
     async def emote(self, ctx, em):
@@ -67,24 +52,6 @@ class Moderating(commands.Cog):
 
 #   Events
 
-    @commands.command(aliases=['En','English'],brief="Learn grammar!",hidden=True)
-    async def english(self, ctx,tense=None):
-        ans = "which tense is that?"
-        c= discord.Colour.dark_red()
-        if tense.lower()=='past':
-            ans = "`use the past form of the verb!` , `subject: who _did_ the verb` , `Object: which the verb is done upon`\n```py\n'Subject' + 'past verb' + 'Object' + 'rest of the sentence'\n```\nthis is Past Simple!\nex: You (Subject) ate (past verb) the cake (Object)"
-            c= discord.Colour.orange()
-        elif tense.lower()=='present':
-            ans = "`use the present form of the verb! (normal form)` , `Subject: who _does_ the verb` , `Object: which the verbs happens upon`\n```py\n'Subject' + 'Verb' + 'Object' + 'rest of the sentence'\n```\nAnd this is the present tense!\nex: The moon (Subject) moves around (verb) the Earth (Object)"
-            c=discord.Colour.green()
-        elif tense.lower()=='future':
-            ans = "it's simple present with *will*\n"
-            c=discord.Colour.golden()
-        elif tense.lower()=='p':
-            ans = "perfect..hmm"
-        
-        
-        await ctx.message.reply(embed=Embed(title=tense, description=ans, colour=c))
 
 
 #   Cmds
@@ -347,53 +314,6 @@ class Moderating(commands.Cog):
                 await ctx.guild.unban(user)
                 await ctx.send(f"Unbunned {user.mention}")
                 return
-
-
-    @commands.command(hidden=True)
-    @commands.check(mee)
-    async def Intent(self, ctx, i,b=None):
-      try:
-        member_spy = db["member_spy"]
-        mylog = db["mylog"]
-      except Exception as e:
-        print(e)
-        await ctx.send('no previous keys')
-        db["member_spy"]=None
-        db["mylog"]= None
-      await ctx.message.delete()
-      if i=='member':
-        if b=='on':
-          member_spy =True
-        else:
-          member_spy =False
-        await ctx.send(f"set value {member_spy}")
-      elif i=='logs':
-        try:
-          mylog=discord.utils.get(ctx.guild.text_channels,id=b)
-          print(mylog.name)
-        except Exception as e:
-          print(e)
-          try:
-            mylog=discord.utils.get(ctx.guild.text_channels,name=b)
-            print(mylog.name)
-          except Exception as e:
-            print(e)
-            #await ctx.send(content=e,delete_after=3)
-            try:
-              b:discord.TextChannel
-              if not isinstance(b,discord.TextChannel):
-                raise Exception("b is not a channel type")
-              mylog=b
-            except Exception as e:
-                print(e)
-                mylog=None
-                await ctx.send(content="log is turned off",delete_after=4)
-        await ctx.send(f"logs channel set to {mylog.mention} in {mylog.category}")
-
-      else:
-        await ctx.send("{0}??".format(db['mood']))
-      db["member_spy"] = member_spy
-      db["mylog"] = mylog
 
 
 def setup(client):
