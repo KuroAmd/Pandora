@@ -11,3 +11,4 @@ wikipedia
 PyNaCl
 ffmpeg
 google-trans-new
+animec
