@@ -13,7 +13,7 @@ import contextlib
 
 import re
 #import wolframalpha
-from replit import db
+
 
 
 class Moderating(commands.Cog):
