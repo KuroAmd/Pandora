@@ -12,7 +12,7 @@ class Games(commands.Cog):
 
     #Cmds
 
-    @commands.command(aliases=['xno'])
+    @commands.command(aliases=['xno',"اکس"])
     async def tictac(self,ctx, player_2:discord.Member, sym_1="✖️",sym_2="⭕"):
         if player_2.bot:
             await ctx.send("Can't play with a bot")
@@ -50,9 +50,13 @@ class Games(commands.Cog):
             else:
                 board= board.replace(str(p),f"{str(sym_2)}")
             await bmsg.edit(content=board)
-            await bmsg.clear_reaction(react[0].emoji)
+            try:
+              await bmsg.clear_reaction(react[0].emoji)
+            except Exception as e:
+              print(e)
+              await ctx.send('btw, failed to remove reaction')
             
-    @commands.command() # how about make it edit the 1st msgs every letter
+    @commands.command(aliases=["المشنقة","الجلاد"]) # how about make it edit the 1st msgs every letter
     async def hangman(self,ctx):
         """You've 5 tries to guess a letters of a random word (please send 1 letter at a time)""" # # word count in english2.txt is 65194 words!
         word=random.choice(open("english2.txt","r").read().split())
