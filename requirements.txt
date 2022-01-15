@@ -12,3 +12,4 @@ PyNaCl
 ffmpeg
 google-trans-new
 animec
+replit
