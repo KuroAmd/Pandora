@@ -9,6 +9,6 @@ youtube_dl
 worldmeter
 wikipedia
 PyNaCl
-ffmpeg
+
 google-trans-new
 animec
