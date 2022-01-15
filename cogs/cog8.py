@@ -2,7 +2,6 @@ import discord
 import discord.ext
 from discord.ext import commands
 from discord import Embed
-from replit import db
 #import datetime
 import random
 import aiohttp
