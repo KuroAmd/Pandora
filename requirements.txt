@@ -4,10 +4,10 @@ aiohttp
 bs4
 requests
 pathlib
-lxml
+
 youtube_dl
-worldmeter
-wikipedia
+
+
 PyNaCl
-ffmpeg
-animec
+
+
